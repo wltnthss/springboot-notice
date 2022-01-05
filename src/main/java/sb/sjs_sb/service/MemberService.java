@@ -8,21 +8,26 @@ import sb.sjs_sb.repository.MemoryMemberRepository;
 import java.util.List;
 import java.util.Optional;
 
+
 public class MemberService {
 
-    MemberRepository repository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
+
+    public MemberService(MemberRepository repository) {
+        this.memberRepository = repository;
+    }
 
     /**
      * 회원가입
      */
     public Long join(Member member) {
         validateDuplicateMember(member);    // 중복 회원 검증
-        repository.save(member);
+        memberRepository.save(member);
         return member.getId();
     }
 
     private void validateDuplicateMember(Member member) {
-        repository.findByName(member.getName())
+        memberRepository.findByName(member.getName())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 존재하는 회원입니다.");
                 });
@@ -32,10 +37,10 @@ public class MemberService {
      * 전체회원조회
      */
     public List<Member> findMembers(){
-        return repository.findAll();
+        return memberRepository.findAll();
     }
 
     public Optional<Member> findOne(Long memberId){
-        return repository.findById(memberId);
+        return memberRepository.findById(memberId);
     }
 }

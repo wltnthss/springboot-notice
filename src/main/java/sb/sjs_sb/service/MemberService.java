@@ -9,12 +9,11 @@ import sb.sjs_sb.repository.MemoryMemberRepository;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Autowired
     public MemberService(MemberRepository repository) {
         this.memberRepository = repository;
     }
